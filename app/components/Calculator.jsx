@@ -6,7 +6,7 @@ import Screen from 'Screen';
 export class Calculator extends React.Component {
   render() {
     return (
-      <div>
+      <div className="calculator">
         <Screen />
         <Keyboard />
       </div>
