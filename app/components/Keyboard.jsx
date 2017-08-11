@@ -40,15 +40,6 @@ export class Calculator extends React.Component {
         </div>
       </div>
     )
-      {/*<div>
-        <h1>React Calculator</h1>
-        <div><span>1</span><span>2</span><span>3</span></div>
-        <div><span>4</span><span>5</span><span>6</span></div>
-        <div><span>7</span><span>8</span><span>9</span></div> 
-        <div><span>=/-</span><span>0</span><span>.</span></div>
-        <div><span>+</span><span>-</span><span>x</span><span>/</span></div> 
-        <div><span>C</span><span>=</span></div>     
-      </div>*/}
   }
 };
 

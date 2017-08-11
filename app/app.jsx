@@ -1,14 +1,20 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var {Route, Router, IndexRoute, hashHistory} = require('react-router');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
 
 import Calculator from 'Calculator';
+import store, {defaultState} from './store/configStore';
 
 require('style!css!sass!applicationStyles')
 
+store.subscribe(() => {
+  var state = store.getState();
+  console.log('New State => ', state);
+});
+
 ReactDOM.render(
-  <div>
+  <Provider store={store}>
     <Calculator/>
-  </div>,
+  </Provider>,
   document.getElementById('app')
 );

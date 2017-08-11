@@ -2,9 +2,10 @@ import React from 'react';
 
 export class Screen extends React.Component {
   render() {
+    const {screenRender} = this.props;
     return (
       <div className="screen">
-        Screen Placeholder
+        {screenRender}
       </div>
     )
   }
