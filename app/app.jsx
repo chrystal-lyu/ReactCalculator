@@ -4,10 +4,6 @@ var {Route, Router, IndexRoute, hashHistory} = require('react-router');
 
 import Calculator from 'Calculator';
 
-// Load foundation
-$(document).foundation();
-
-// App css
 require('style!css!sass!applicationStyles')
 
 ReactDOM.render(
