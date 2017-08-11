@@ -1,10 +1,13 @@
 .keyboard {
+  font-family: Arial, Helvetica, sans-serif;
   height: auto;
 }
+
 .keyboard-row {
   display: table;
   width: 100%;
 }
+
 .key {
   display: table-cell;
   vertical-align: middle;
