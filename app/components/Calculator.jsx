@@ -1,32 +1,38 @@
 import React from 'react';
 
-import Key from 'Key';
-
 export class Calculator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       displayValue: "0"
     };
-
-    this._inputDigit = this._inputDigit.bind(this);
   }
 
   _inputDigit(digit) {
-    const {displayValue} = this.state;
+    const { displayValue } = this.state;
 
     this.setState({
       displayValue: displayValue === "0" ? String(digit) : displayValue + String(digit)
     })
   }
 
+  _inputDot() {
+    const { displayValue } = this.state;
+
+    if(displayValue.indexOf('.') === -1) {
+      this.setState({
+        displayValue: displayValue + '.'
+      })      
+    }
+  }
+
   render() {
-    const {displayValue} = this.state;
+    const { displayValue } = this.state;
 
     return (
       <div className="calculator">
         <div className="screen" onClick={() => this._inputDigit(1)}> 
-          {displayValue}
+          { displayValue }
         </div>        
         <div className='keyboard'>
           <div className='keyboard-row'>
@@ -47,7 +53,7 @@ export class Calculator extends React.Component {
           <div className='keyboard-row'>
             <div className="key key-number" >+/-</div>
             <div className="key key-number" onClick={() => this._inputDigit(0)} >0</div>
-            <div className="key key-number" >.</div>
+            <div className="key key-number" onClick={()=> this._inputDot()}>.</div>
           </div>
 
           <div className='keyboard-row'>
