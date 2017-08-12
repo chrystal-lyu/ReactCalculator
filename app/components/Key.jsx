@@ -1,10 +1,6 @@
 import React from 'react';
 
 export class Key extends React.Component {
-  _handleClick() {
-    console.log('clicked')
-  }
-
   render() {
     let classString = "key key-" + this.props.keyType;
     let classOperation = "";
@@ -14,7 +10,7 @@ export class Key extends React.Component {
       classOperation = "action " + this.props.keyValue;
     }
     return (
-      <div className={classString} onClick={this._handleClick.bind(this)}>
+      <div className={classString}>
         <div className={classOperation}>
           {this.props.keySymbol}
         </div>
