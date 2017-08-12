@@ -4,16 +4,25 @@ export class Calculator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayValue: "0"
+      displayValue: "0",
+      waitingForOperand: false,
+      operator: null
     };
   }
 
   _inputDigit(digit) {
-    const { displayValue } = this.state;
+    const { displayValue, waitingForOperand } = this.state;
 
-    this.setState({
-      displayValue: displayValue === "0" ? String(digit) : displayValue + String(digit)
-    });
+    if(waitingForOperand) {
+      this.setState({
+        displayValue: String(digit),
+        waitingForOperand: false
+      })
+    } else {
+      this.setState({
+        displayValue: displayValue === "0" ? String(digit) : displayValue + String(digit)
+      });
+    }
   }
 
   _toggleSign() {
@@ -27,13 +36,26 @@ export class Calculator extends React.Component {
   }
 
   _inputDot() {
-    const { displayValue } = this.state;
+    const { displayValue, waitingForOperand } = this.state;
 
-    if(displayValue.indexOf('.') === -1) {
+    if(waitingForOperand) {
       this.setState({
-        displayValue: displayValue + '.'
+        displayValue: '0.',
+        waitingForOperand: false
+      })
+    } else if(displayValue.indexOf('.') === -1) {
+      this.setState({
+        displayValue: displayValue + '.',
+        waitingForOperand: false
       });
     };
+  }
+
+  _performOperation(operator) {
+    this.setState({
+      waitingForOperand: true,
+      operator: operator
+    })
   }
 
   _clearAll() {
@@ -76,16 +98,16 @@ export class Calculator extends React.Component {
 
           <div className='keyboard-row'>
             <div className="key key-operator" >
-              <div className="operator add">+</div>
+              <div className="operator add" onClick={() => this._performOperation('+')}>+</div>
             </div>
             <div className="key key-operator" >
-              <div className="operator substract">-</div>
+              <div className="operator substract" onClick={() => this._performOperation('-')}>-</div>
             </div>
             <div className="key key-operator" >
-              <div className="operator multiply">x</div>
+              <div className="operator multiply" onClick={() => this._performOperation('*')}>x</div>
             </div>
             <div className="key key-operator" >
-              <div className="operator divide">÷</div>
+              <div className="operator divide" onClick={() => this._performOperation('/')}>÷</div>
             </div>
           </div>
 
