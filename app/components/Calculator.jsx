@@ -13,7 +13,17 @@ export class Calculator extends React.Component {
 
     this.setState({
       displayValue: displayValue === "0" ? String(digit) : displayValue + String(digit)
-    })
+    });
+  }
+
+  _toggleSign() {
+    const { displayValue } = this.state;
+    
+    if(displayValue !== "0") {
+      this.setState({
+        displayValue: displayValue.charAt(0) === '-' ? displayValue.substr(1) : '-' + displayValue
+      });
+    }
   }
 
   _inputDot() {
@@ -22,8 +32,8 @@ export class Calculator extends React.Component {
     if(displayValue.indexOf('.') === -1) {
       this.setState({
         displayValue: displayValue + '.'
-      })      
-    }
+      });
+    };
   }
 
   _clearAll() {
@@ -31,7 +41,7 @@ export class Calculator extends React.Component {
 
     this.setState({
       displayValue: "0"
-    })
+    });
   }
 
   render() {
@@ -59,7 +69,7 @@ export class Calculator extends React.Component {
             <div className="key key-number" onClick={() => this._inputDigit(9)} >9</div>
           </div>
           <div className='keyboard-row'>
-            <div className="key key-number" >+/-</div>
+            <div className="key key-number" onClick={() => this._toggleSign()}>+/-</div>
             <div className="key key-number" onClick={() => this._inputDigit(0)} >0</div>
             <div className="key key-number" onClick={()=> this._inputDot()}>.</div>
           </div>
