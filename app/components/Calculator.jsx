@@ -26,6 +26,14 @@ export class Calculator extends React.Component {
     }
   }
 
+  _clearAll() {
+    const { displayValue } = this.state;
+
+    this.setState({
+      displayValue: "0"
+    })
+  }
+
   render() {
     const { displayValue } = this.state;
 
@@ -73,7 +81,7 @@ export class Calculator extends React.Component {
 
           <div className='keyboard-row'>
             <div className="key key-action" >
-              <div className="action back">C</div>
+              <div className="action back" onClick={() => this._clearAll()}>C</div>
             </div>
             <div className="key key-action" >
               <div className="action equal">=</div>
