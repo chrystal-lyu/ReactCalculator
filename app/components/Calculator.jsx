@@ -4,6 +4,7 @@ export class Calculator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      prevValue: null,
       displayValue: "0",
       waitingForOperand: false,
       operator: null
@@ -52,17 +53,38 @@ export class Calculator extends React.Component {
   }
 
   _performOperation(operator) {
+    const { displayValue } = this.state;
+    const prevValue = parseFloat(displayValue);
+
     this.setState({
+      prevValue: prevValue,
       waitingForOperand: true,
       operator: operator
     })
   }
 
-  _clearAll() {
-    const { displayValue } = this.state;
-
+  _getResult() {
+    const { displayValue, prevValue, operator} = this.state;
+    let resultValue;
+    if(operator === '+') {
+      resultValue = prevValue + parseFloat(displayValue);
+    } else if(operator === '-') {
+      resultValue = prevValue - parseFloat(displayValue);
+    } else if(operator === '*') {
+      resultValue = prevValue * parseFloat(displayValue);
+    } else {
+      resultValue = prevValue / parseFloat(displayValue);
+    }
     this.setState({
-      displayValue: "0"
+      displayValue: resultValue
+    })
+  }
+
+  _clearAll() {
+    this.setState({
+      displayValue: "0",
+      operator: null,
+      prevValue: null
     });
   }
 
@@ -116,7 +138,7 @@ export class Calculator extends React.Component {
               <div className="action back" onClick={() => this._clearAll()}>C</div>
             </div>
             <div className="key key-action" >
-              <div className="action equal">=</div>
+              <div className="action equal" onClick={() => this._getResult()}>=</div>
             </div>
           </div>
         </div>
