@@ -4,7 +4,9 @@ export class Calculator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      value: null,
       prevValue: null,
+      nextValue: null,
       displayValue: "0",
       waitingForOperand: false,
       operator: null
@@ -54,17 +56,16 @@ export class Calculator extends React.Component {
 
   _performOperation(operator) {
     const { displayValue } = this.state;
-    const prevValue = parseFloat(displayValue);
 
     this.setState({
-      prevValue: prevValue,
+      prevValue: parseFloat(displayValue),
       waitingForOperand: true,
       operator: operator
     })
   }
 
   _getResult() {
-    const { displayValue, prevValue, operator} = this.state;
+    const { waitingForOperand, displayValue, prevValue, nextValue, operator, value} = this.state;
     let resultValue;
     if(operator === '+') {
       resultValue = prevValue + parseFloat(displayValue);
@@ -76,15 +77,19 @@ export class Calculator extends React.Component {
       resultValue = prevValue / parseFloat(displayValue);
     }
     this.setState({
-      displayValue: resultValue
+      value: resultValue,
+      displayValue: String(resultValue),
+      prevValue: resultValue,
     })
   }
 
   _clearAll() {
     this.setState({
+      value: null,
       displayValue: "0",
       operator: null,
-      prevValue: null
+      prevValue: null,
+      waitingForOperand: false
     });
   }
 
