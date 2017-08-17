@@ -5,8 +5,6 @@ export class Calculator extends React.Component {
     super(props);
     this.state = {
       value: null,
-      prevValue: null,
-      nextValue: null,
       displayValue: "0",
       waitingForOperand: false,
       operator: null
@@ -54,32 +52,34 @@ export class Calculator extends React.Component {
     };
   }
 
-  _performOperation(operator) {
-    const { displayValue } = this.state;
-
-    this.setState({
-      prevValue: parseFloat(displayValue),
-      waitingForOperand: true,
-      operator: operator
-    })
-  }
-
-  _getResult() {
-    const { waitingForOperand, displayValue, prevValue, nextValue, operator, value} = this.state;
-    let resultValue;
-    if(operator === '+') {
-      resultValue = prevValue + parseFloat(displayValue);
-    } else if(operator === '-') {
-      resultValue = prevValue - parseFloat(displayValue);
-    } else if(operator === '*') {
-      resultValue = prevValue * parseFloat(displayValue);
-    } else {
-      resultValue = prevValue / parseFloat(displayValue);
+  _performOperation(nextOperator) {
+    const { displayValue, operator, value } = this.state;
+    const nextValue = parseFloat(displayValue);
+    const operations = {
+      '+': (prevValue, nextValue) => prevValue + nextValue,
+      '-': (prevValue, nextValue) => prevValue - nextValue,
+      '*': (prevValue, nextValue) => prevValue * nextValue,
+      '/': (prevValue, nextValue) => prevValue / nextValue,
+      '=': (prevValue, nextValue) => nextValue
     }
+    if(value == null) {
+      this.setState({
+        value: nextValue
+      })
+    } else if(operator) {
+      const currentValue = value || 0;
+      const computedValue = operations[operator](currentValue, nextValue);
+
+      this.setState({
+        value: computedValue,
+        displayValue: String(computedValue)
+      })
+    }
+
+
     this.setState({
-      value: resultValue,
-      displayValue: String(resultValue),
-      prevValue: resultValue,
+      waitingForOperand: true,
+      operator: nextOperator
     })
   }
 
@@ -88,7 +88,6 @@ export class Calculator extends React.Component {
       value: null,
       displayValue: "0",
       operator: null,
-      prevValue: null,
       waitingForOperand: false
     });
   }
@@ -143,7 +142,7 @@ export class Calculator extends React.Component {
               <div className="action back" onClick={() => this._clearAll()}>C</div>
             </div>
             <div className="key key-action" >
-              <div className="action equal" onClick={() => this._getResult()}>=</div>
+              <div className="action equal" onClick={() => this._performOperation()}>=</div>
             </div>
           </div>
         </div>
